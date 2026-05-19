@@ -1,0 +1,11 @@
+numpy==1.26.4
+joblib==1.4.2
+scikit-learn==1.6.1
+pandas==2.2.3
+ipykernel==6.29.5
+pytest==8.3.5
+autopep8
+isort
+black==25.1.0
+requests
+mlflow==2.22.0
