@@ -1,0 +1,13 @@
+name: Hello World Workflow - Schedule
+on:
+  schedule:
+    - cron: '*/15 * * * 5'  # Every 15 minutes on Friday
+
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print greeting
+        run: echo "Hello, world! - This is a scheduled execution"

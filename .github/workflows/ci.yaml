@@ -1,0 +1,57 @@
+name: Continuous Integration - syed mahmoud
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Ensure the workflow has permission to push commits
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}  # Dynamically set the branch name
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all branches so we can push back
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests with pytest
+        run: |
+          pytest session_4/tests/ -v
+
+      - name: Format code with black
+        run: |
+          black session_4/
+
+      # Ensure we're on the correct branch and get the branch name
+      - name: Checkout the correct branch if detached HEAD
+        run: |
+          echo "Current branch is $BRANCH_NAME"
+
+      # Commit and push changes if there are any
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.github.com"
+          git add session_4/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: format code with black"
+            git push origin HEAD:$BRANCH_NAME
+          else
+            echo "No changes to commit."
+          fi

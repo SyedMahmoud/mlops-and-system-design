@@ -1,0 +1,10 @@
+name: Hello World Workflow - Manual
+on: workflow_dispatch
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print greeting
+        run: echo "Hello, world! - This is a manual execution"

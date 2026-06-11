@@ -1,0 +1,12 @@
+name: Hello World Workflow - On Pull Request
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print greeting
+        run: echo "Hello, world! - This is an execution on pull request"
